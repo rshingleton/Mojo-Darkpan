@@ -62,7 +62,7 @@
          "url" : "http://git.ent.oclc.org/scm/mtper/darkpan.git"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_serialization_backend" : "JSON::PP version 2.27400_02",
    "x_static_install" : 1
 }

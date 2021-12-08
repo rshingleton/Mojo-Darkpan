@@ -12,16 +12,20 @@ my $dir_page = <<'PAGE';
 <head>
     <title>Index of <%= $cur_path %></title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <style type='text/css'>
-        table { width:100%%; }
+    <style>
+
+        table { width:100%; }
+
+        td, th{ padding: 0 5px 0 5px }
 
         .name { text-align:left; }
 
         .size, .mtime { text-align:right; }
 
-        .type { width:11em; }
+        .type { width:11em;text-align:left; }
 
         .mtime { width:15em; }
+
     </style>
 </head>
 <body>
@@ -54,7 +58,6 @@ sub register {
 
     my $root = Mojo::Home->new($args->{root} || Darkpan::Config->new->directory);
     my $handler = $args->{handler};
-    my $index = $args->{dir_index};
     my $auto_index = $args->{auto_index} // 1;
     my $json = $args->{json};
     my $delivery_path = $args->{delivery_path} || $root;
@@ -91,17 +94,6 @@ sub register {
     return $app;
 }
 
-sub locate_index {
-    my $index = shift || return;
-    my $dir = shift || Cwd::getcwd;
-    my $root = Mojo::Home->new($dir);
-    $index = (ref $index eq 'ARRAY') ? $index : [ "$index" ];
-    for (@$index) {
-        my $path = $root->rel_file($_);
-        return $path if (-e $path);
-    }
-}
-
 sub render_file {
     my $c = shift;
     my $path = shift;
@@ -117,10 +109,8 @@ sub render_indexes {
     my $dir = shift;
     my $json = shift;
 
-    my @files =
-        ($c->req->url->path eq '/')
-            ? ()
-            : ({ url => '../', name => 'Parent Directory', size => '', type => '', mtime => '' });
+    my @files = ($c->req->url->path eq '/') ? ()
+        : ({ url => '../', name => 'Parent Directory', size => '', type => '', mtime => '' });
     my $children = list_files($dir);
 
     my $cur_path = Encode::decode_utf8(Mojo::Util::url_unescape($c->req->url->path));
@@ -136,10 +126,8 @@ sub render_indexes {
             $url->trailing_slash(1);
         }
 
-        my $mime_type =
-            $is_dir
-                ? 'directory'
-                : ($types->type(get_ext($file) || 'txt') || 'text/plain');
+        my $mime_type = $is_dir ? 'directory'
+            : ($types->type(get_ext($file) || 'txt') || 'text/plain');
         my $mtime = Mojo::Date->new($stat[9])->to_string();
 
         push @files, {

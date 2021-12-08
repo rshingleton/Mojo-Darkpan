@@ -41,14 +41,12 @@ sub _build_basic_auth {
         }
     }
     elsif (defined($self->_config) && defined($self->_config->{basic_auth})) {
-        my @keys = keys %{$self->config->{basic_auth}};
+        my @keys = keys %{$self->_config->{basic_auth}};
         $config = {
             realm  => $keys[0],
             config => $self->_config->{basic_auth}->{$keys[0]}
         };
     }
-
-    say Dumper $config;
     
     return $config;
 }

@@ -2,6 +2,9 @@ Revision history for Perl extension Darkpan
 
 {{$NEXT}}
 
+0.02 2021-12-08T02:05:28Z
+    - style changes to directory handler plugin
+
 0.01 2021-12-08T01:04:36Z
 
     - original version
