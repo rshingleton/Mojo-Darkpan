@@ -1,4 +1,4 @@
-package Darkpan::Config;
+package Mojo::Darkpan::Config;
 use v5.20;
 use Moo;
 use JSON;

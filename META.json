@@ -1,7 +1,7 @@
 {
    "abstract" : "A Mojolicious web service frontend leveraging OrePAN2",
    "author" : [
-      "shingler <shingler@oclc.org>"
+      "rshingleton <reshingleton@gmail.com>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v3.1.12, CPAN::Meta::Converter version 2.150010",
@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Darkpan",
+   "name" : "Mojo-Darkpan",
    "no_index" : {
       "directory" : [
          "t",
@@ -43,9 +43,11 @@
       "runtime" : {
          "requires" : {
             "IO::Zlib" : "0",
+            "JSON" : "0",
             "Mojolicious" : "0",
             "Mojolicious::Plugin::BasicAuthPlus" : "0",
             "Moo" : "0",
+            "Nice::Try" : "0",
             "OrePAN2" : "0",
             "perl" : "v5.20.0"
          }
@@ -58,11 +60,20 @@
    },
    "release_status" : "unstable",
    "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/rshingleton/Mojo-Darkpan/issues"
+      },
+      "homepage" : "https://github.com/rshingleton/Mojo-Darkpan",
       "repository" : {
-         "url" : "http://git.ent.oclc.org/scm/mtper/darkpan.git"
+         "type" : "git",
+         "url" : "git://github.com/rshingleton/Mojo-Darkpan.git",
+         "web" : "https://github.com/rshingleton/Mojo-Darkpan"
       }
    },
-   "version" : "0.02",
+   "version" : "0.04",
+   "x_contributors" : [
+      "shingler <shingler@oclc.org>"
+   ],
    "x_serialization_backend" : "JSON::PP version 2.27400_02",
    "x_static_install" : 1
 }

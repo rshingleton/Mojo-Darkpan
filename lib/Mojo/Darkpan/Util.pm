@@ -1,7 +1,7 @@
-package Darkpan::Util;
+package Mojo::Darkpan::Util;
 use v5.25;
 use Moo;
-use Darkpan::Config;
+use Mojo::Darkpan::Config;
 use Data::Dumper;
 use File::Temp;
 use IO::Zlib;
@@ -99,6 +99,7 @@ sub list {
         next if ($_ !~ m/\.tar\.gz$/);
         my ($name, $version, $file) = split('\s+', $_);
         if (eval($version)) {
+
             $current = $name;
             my $dir = File::Basename::dirname($file);
             my $archive = $file =~ s/$dir\///gr;
@@ -131,10 +132,13 @@ sub _getFileList {
     my @files = readdir $dir;
     closedir $dir;
 
+    my $prefix = $current =~ s/-(.*)\.tar\.gz//r;
+    
     my @data;
     for (@files) {
         next if $_ =~ m/^\./;
         next if $_ eq $current;
+        next if $_ !~ m/^$prefix/;
         push(@data, $_);
     }
 
@@ -167,7 +171,7 @@ sub _build_author {
         $author = uc($self->controller->param("HIDDENNAME"));
     }
     elsif ($self->controller->param("author")) {
-        $author = uc($self->request->param("author"));
+        $author = uc($self->controller->param("author"));
     }
 
     return $author;
@@ -179,7 +183,7 @@ sub _build_indexer {
 }
 
 sub _build_config {
-    return Darkpan::Config->new;
+    return Mojo::Darkpan::Config->new;
 }
 
 1;

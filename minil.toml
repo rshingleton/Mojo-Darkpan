@@ -1,4 +1,4 @@
-name = "Darkpan"
+name = "Mojo-Darkpan"
 # badges = ["travis-ci.com"]
 module_maker="ModuleBuildTiny"
 static_install = "auto"

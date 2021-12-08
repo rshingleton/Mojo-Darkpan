@@ -7,4 +7,4 @@ use lib curfile->dirname->sibling('lib')->to_string;
 use lib curfile->dirname->sibling('local/lib')->to_string;
 use Mojolicious::Commands;
 
-Mojolicious::Commands->start_app('Darkpan');
+Mojolicious::Commands->start_app('Mojo::Darkpan');

@@ -1,15 +1,15 @@
-package Darkpan;
+package Mojo::Darkpan;
 use v5.20;
 use Data::Dumper;
 use FindBin;
 use Mojo::Base 'Mojolicious', -signatures;
-use Darkpan::Config;
+use Mojo::Darkpan::Config;
 
 sub startup($self) {
     # https://metacpan.org/pod/Mojolicious::Plugin::BasicAuthPlus
     $self->plugin('basic_auth_plus');
     $self->plugin('DirectoryHandler',
-        delivery_path => Darkpan::Config->new->path);
+        delivery_path => Mojo::Darkpan::Config->new->path);
 
     #----------
     # Router
@@ -22,9 +22,13 @@ sub startup($self) {
     my $uploader = $r->any('/publish');
     $uploader->post('/')->to(controller => 'publish', action => 'upload');
 
+    # goes to the same place as publish, used for compatibility
+    my $authenquery = $r->any('/authenquery');
+    $authenquery->post('/')->to(controller => 'publish', action => 'upload');
+    
 }
 
-our $VERSION = "0.02";
+our $VERSION = "0.04";
 
 1;
 __END__
@@ -33,11 +37,11 @@ __END__
 
 =head1 NAME
 
-Darkpan - A Mojolicious web service frontend leveraging OrePAN2
+Mojo::Darkpan - A Mojolicious web service frontend leveraging OrePAN2
 
 =head1 DESCRIPTION
 
-Darkpan is a webservice build on Mojolicious to frontend L<OrePAN2|https://metacpan.org/pod/OrePAN2>. This module was inspired
+Mojo::Darkpan is a webservice build on Mojolicious to frontend L<OrePAN2|https://metacpan.org/pod/OrePAN2>. This module was inspired
 by L<OrePAN2::Server|https://metacpan.org/pod/OrePAN2::Server'> but built on 
 Mojolicious to take advantage of it's robust framework of tools. A good bit of the documentation
 was also taken from OrePAN2::Server as the functionality is similar if not identical.
@@ -167,10 +171,15 @@ and add your settings to the basic auth section of the config.json file.
 Publishing to darkpan can be done using a post request and a URL to git or bitbucket repo.
     
     #upload git managed module to my darkpan by curl 
-    curl --data-urlencode 'module=git@github.com:Songmu/p5-App-RunCron.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
     curl --data-urlencode 'module=git+ssh://git@mygit/home/git/repos/MyModule.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
-    curl --data-urlencode 'module=git+file:///home/hirobanex/project/MyModule.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
+    curl --data-urlencode 'module=git+file:///home/rshingleton/project/MyModule.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
+    curl --data-urlencode 'module=git@github.com:rshingleton/perl-module-test.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
 
+The module parameter can also be an HTTP url. see L<OrePAN2::Injector|https://metacpan.org/pod/OrePAN2::Injector> for 
+additional details.
+
+    curl --data-urlencode 'module=https://cpan.metacpan.org/authors/id/O/OA/OALDERS/OrePAN2-0.48.tar.gz' --data-urlencode 'author=OALDERS' http://localhost:3000/publish
+    
 =head3 Deploying with L<Minilla|https://metacpan.org/pod/Minilla>
 
 Minilla is a cpan authoring tool, see L<Minilla|https://metacpan.org/pod/Minilla> for more details.
@@ -196,17 +205,65 @@ I<** if you don't set the upload_uri, you will upload to CPAN>
 
 If basic auth is enabled, the username and password set in the .pause file will be
 used as basic auth credentials.
+
+=head2 How to install from your Darkpan
+
+=head3 cpanm
+
+See L<cpanm|https://metacpan.org/pod/cpanm> for additional details.
+
+     # check CPAN and your Darkpan server
+     cpanm --mirror http://my-darkpan.server/darkpan
+     
+     # check for packages from only your Darkpan server
+     cpanm --mirror-only http://my-darkpan.server/darkpan
+     cpanm --from http://my-darkpan.server/darkpan
+
+=head3 cpm
+
+See L<cpm|https://metacpan.org/dist/App-cpm/view/script/cpm> for additional details.
+
+    # resolve distribution names from DARKPAN/modules/02packages.details.txt.gz
+    # and fetch distibutions from DARKPAN/authors/id/...
+    > cpm install --resolver 02packages,http://example.com/darkpan Your::Module
+    
+    # use darkpan first, and if it fails, use metadb and normal CPAN
+    > cpm install --resolver 02packages,http://my-darkpan.server/darkpan --resolver metadb Your::Module
+
+=head3 carton
+
+See L<carton|https://metacpan.org/pod/Carton> for additional details.
+ 
+    # in the cpanfile
+    # local mirror (darkpan)
+    
+    requires 'Plack', '== 0.9981',
+      dist => 'MYCOMPANY/Plack-0.9981-p1.tar.gz',
+      mirror => 'http://my-darkpan.server/darkpan';
+
+Carton also uses an (L<undocumented|https://domm.plix.at/perl/2017_07_carton_darkpan.html>) environment variable PERL_CARTON_MIRROR that will enable you
+to add your Darkpan server to its list of resolvers. Carton will install from 
+your Darkpan and from the default CPAN mirror.   
+
+    PERL_CARTON_MIRROR=http://my-darkpan.server/darkpan carton install  
+
+=head1 SEE ALSO
+
+L<OrePAN2|https://metacpan.org/pod/OrePAN2>
+
+L<OrePAN2::Server|https://metacpan.org/pod/OrePAN2::Server>
+
  
 =head1 LICENSE
 
-Copyright (C) shingler.
+Copyright (C) rshingleton.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =head1 AUTHOR
 
-shingler E<lt>shingler@oclc.orgE<gt>
+rshingleton E<lt>reshingleton@gmail.comE<gt>
 
 =cut
 

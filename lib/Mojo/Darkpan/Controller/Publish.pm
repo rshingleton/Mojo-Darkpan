@@ -1,4 +1,4 @@
-package Darkpan::Controller::Publish;
+package Mojo::Darkpan::Controller::Publish;
 use v5.20;
 use Mojo::Base 'Mojolicious::Controller', -signatures;
 use File::Copy ();
@@ -7,11 +7,11 @@ use File::Temp ();
 use OrePAN2::Injector;
 use OrePAN2::Indexer;
 use Data::Dumper;
-use Darkpan::Util;
+use Mojo::Darkpan::Util;
 use Nice::Try;
 
 sub upload($self) {
-    my $util = Darkpan::Util->new(controller => $self);
+    my $util = Mojo::Darkpan::Util->new(controller => $self);
 
     try {
         if ($util->authorized) {

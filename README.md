@@ -1,10 +1,10 @@
 # NAME
 
-Darkpan - A Mojolicious web service frontend leveraging OrePAN2
+Mojo::Darkpan - A Mojolicious web service frontend leveraging OrePAN2
 
 # DESCRIPTION
 
-Darkpan is a webservice build on Mojolicious to frontend [OrePAN2](https://metacpan.org/pod/OrePAN2). This module was inspired
+Mojo::Darkpan is a webservice build on Mojolicious to frontend [OrePAN2](https://metacpan.org/pod/OrePAN2). This module was inspired
 by [OrePAN2::Server](https://metacpan.org/pod/OrePAN2::Server&#x27;) but built on 
 Mojolicious to take advantage of it's robust framework of tools. A good bit of the documentation
 was also taken from OrePAN2::Server as the functionality is similar if not identical.
@@ -113,9 +113,15 @@ and add your settings to the basic auth section of the config.json file.
 Publishing to darkpan can be done using a post request and a URL to git or bitbucket repo.
 
     #upload git managed module to my darkpan by curl 
-    curl --data-urlencode 'module=git@github.com:Songmu/p5-App-RunCron.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
     curl --data-urlencode 'module=git+ssh://git@mygit/home/git/repos/MyModule.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
-    curl --data-urlencode 'module=git+file:///home/hirobanex/project/MyModule.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
+    curl --data-urlencode 'module=git+file:///home/rshingleton/project/MyModule.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
+    curl --data-urlencode 'module=git@github.com:rshingleton/perl-module-test.git' --data-urlencode 'author=SHINGLER' http://localhost:3000/publish
+
+The module parameter can also be an HTTP url. see [OrePAN2::Injector](https://metacpan.org/pod/OrePAN2::Injector) for 
+additional details.
+
+    curl --data-urlencode 'module=https://cpan.metacpan.org/authors/id/O/OA/OALDERS/OrePAN2-0.48.tar.gz' --data-urlencode 'author=OALDERS' http://localhost:3000/publish
+    
 
 ### Deploying with [Minilla](https://metacpan.org/pod/Minilla)
 
@@ -144,13 +150,60 @@ _\*\* if you don't set the upload\_uri, you will upload to CPAN_
 If basic auth is enabled, the username and password set in the .pause file will be
 used as basic auth credentials.
 
+## How to install from your Darkpan
+
+### cpanm
+
+See [cpanm](https://metacpan.org/pod/cpanm) for additional details.
+
+     # check CPAN and your Darkpan server
+     cpanm --mirror http://my-darkpan.server/darkpan
+     
+     # check for packages from only your Darkpan server
+     cpanm --mirror-only http://my-darkpan.server/darkpan
+     cpanm --from http://my-darkpan.server/darkpan
+
+### cpm
+
+See [cpm](https://metacpan.org/dist/App-cpm/view/script/cpm) for additional details.
+
+    # resolve distribution names from DARKPAN/modules/02packages.details.txt.gz
+    # and fetch distibutions from DARKPAN/authors/id/...
+    > cpm install --resolver 02packages,http://example.com/darkpan Your::Module
+    
+    # use darkpan first, and if it fails, use metadb and normal CPAN
+    > cpm install --resolver 02packages,http://my-darkpan.server/darkpan --resolver metadb Your::Module
+
+### carton
+
+See [carton](https://metacpan.org/pod/Carton) for additional details.
+
+    # in the cpanfile
+    # local mirror (darkpan)
+    
+    requires 'Plack', '== 0.9981',
+      dist => 'MYCOMPANY/Plack-0.9981-p1.tar.gz',
+      mirror => 'http://my-darkpan.server/darkpan';
+
+Carton also uses an ([undocumented](https://domm.plix.at/perl/2017_07_carton_darkpan.html)) environment variable PERL\_CARTON\_MIRROR that will enable you
+to add your Darkpan server to its list of resolvers. Carton will install from 
+your Darkpan and from the default CPAN mirror.   
+
+    PERL_CARTON_MIRROR=http://my-darkpan.server/darkpan carton install  
+
+# SEE ALSO
+
+[OrePAN2](https://metacpan.org/pod/OrePAN2)
+
+[OrePAN2::Server](https://metacpan.org/pod/OrePAN2::Server)
+
 # LICENSE
 
-Copyright (C) shingler.
+Copyright (C) rshingleton.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 # AUTHOR
 
-shingler <shingler@oclc.org>
+rshingleton <reshingleton@gmail.com>

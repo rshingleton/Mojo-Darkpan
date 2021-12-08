@@ -4,8 +4,8 @@
     <exclude-output />
     <perl5>
       <path value="file://$MODULE_DIR$/lib" type="perl-library" />
-      <path value="file://$MODULE_DIR$/.build/XspaBtQO/blib/lib" type="perl-library" />
-      <path value="file://$MODULE_DIR$/.build/XspaBtQO/lib" type="perl-library" />
+      <path value="file://$MODULE_DIR$/.build/TYzfHLuV/blib/lib" type="perl-library" />
+      <path value="file://$MODULE_DIR$/.build/TYzfHLuV/lib" type="perl-library" />
     </perl5>
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />

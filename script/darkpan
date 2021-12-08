@@ -7,8 +7,8 @@ use lib curfile->dirname->sibling('lib')->to_string;
 use lib curfile->dirname->sibling('local/lib')->to_string;
 use Mojolicious::Commands;
 use Mojo::Server::Prefork;
-use Darkpan;
-use Darkpan::Config;
+use Mojo::Darkpan;
+use Mojo::Darkpan::Config;
 use Getopt::Long;
 use File::Temp qw(tempfile);
 use Data::Dumper;
@@ -32,8 +32,9 @@ if (defined $devmode) {
 
 }
 else {
+    $ENV{MOJO_MODE}='production';
     my $darkpan = Mojo::Server::Prefork->new(listen => [ 'http://*:' . $port ]);
-    $darkpan->app(Darkpan->new);
+    $darkpan->app(Mojo::Darkpan->new);
     $darkpan->run;
 }
 

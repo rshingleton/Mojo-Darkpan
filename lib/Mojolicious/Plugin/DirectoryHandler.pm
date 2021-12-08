@@ -5,7 +5,7 @@ use Encode ();
 use DirHandle;
 use Mojolicious::Types;
 use Mojo::JSON qw(encode_json);
-use Darkpan::Config;
+use Mojo::Darkpan::Config;
 
 my $dir_page = <<'PAGE';
 <html>
@@ -56,7 +56,7 @@ sub register {
     my $self = shift;
     my ($app, $args) = @_;
 
-    my $root = Mojo::Home->new($args->{root} || Darkpan::Config->new->directory);
+    my $root = Mojo::Home->new($args->{root} || Mojo::Darkpan::Config->new->directory);
     my $handler = $args->{handler};
     my $auto_index = $args->{auto_index} // 1;
     my $json = $args->{json};
@@ -70,11 +70,12 @@ sub register {
 
             return render_file($c, $root, $handler) if (-f $root->to_string());
 
-            my $path;
 
-            if ($req_path =~ m/\/$delivery_path/) {
+            if ($req_path =~ m/^\/$delivery_path/) {
                 my $root_string = $root->to_string();
-                $req_path =~ s/$delivery_path//;
+                $req_path =~ s/\/$delivery_path//;
+
+                my $path;
                 if ($req_path ne $root_string) {
                     $path = $root->rel_file(Mojo::Util::url_unescape($req_path));
                 }
@@ -87,7 +88,8 @@ sub register {
                     render_file($c, $path, $handler);
                     return;
                 }
-                $c->redirect_to($c->req->url->path->trailing_slash(1));
+                $c->reply->not_found;
+                return;
             }
         },
     );
