@@ -44,6 +44,7 @@
          "requires" : {
             "IO::Zlib" : "0",
             "JSON" : "0",
+            "Mojo::File" : "0",
             "Mojolicious" : "0",
             "Mojolicious::Plugin::BasicAuthPlus" : "0",
             "Moo" : "0",
@@ -70,7 +71,7 @@
          "web" : "https://github.com/rshingleton/Mojo-Darkpan"
       }
    },
-   "version" : "0.05",
+   "version" : "0.06",
    "x_contributors" : [
       "shingler <shingler@oclc.org>"
    ],
