@@ -2,6 +2,9 @@ Revision history for Perl extension Mojo::Darkpan
 
 {{$NEXT}}
 
+0.08 2022-09-15T14:47:49Z
+    - Documentation fixes
+
 0.07 2022-09-15T14:42:40Z
     - Updated documentation with additional example for publishing local files
     - Canged wording from "Deploy" to "Publish" in doco
