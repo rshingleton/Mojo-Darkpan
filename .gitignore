@@ -33,3 +33,5 @@ MYMETA.*
 /darkpan/
 /config.json
 /.pause
+
+.vscode
