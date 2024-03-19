@@ -1,4 +1,4 @@
-FROM perl:slim-threaded-bullseye AS compile-image
+FROM perl:5.36.3-slim-threaded-bullseye AS compile-image
 
 RUN apt-get update
 RUN apt-get update && apt-get install -y \
@@ -9,19 +9,15 @@ RUN apt-get update && apt-get install -y \
     
 RUN curl -LO https://raw.githubusercontent.com/miyagawa/cpanminus/master/cpanm \
     && chmod +x cpanm \
-    && ./cpanm App::cpanminus
+    && ./cpanm App::cpanminus \
+    && curl -fsSL https://raw.githubusercontent.com/skaji/cpm/main/cpm \
+    | perl - install -g App::cpm
 
-ENV PERL_CPANM_OPT --verbose --mirror https://cpan.metacpan.org --mirror-only
-RUN cpanm Digest::SHA Module::Signature && rm -rf ~/.cpanm
-ENV PERL_CPANM_OPT $PERL_CPANM_OPT --verify
-
-RUN cpanm App::cpm
- 
 COPY cpanfile ./
 
 RUN cpm install --global --show-build-log-on-failure
 
-FROM debian:stable-slim AS build-image
+FROM perl:5.36.3-slim-threaded-bullseye AS build-image
 
 RUN apt-get update && apt-get install  --no-install-recommends --no-install-suggests  -y \
     curl tar wget ca-certificates \
@@ -32,10 +28,8 @@ WORKDIR /opt
 
 ARG VER=1.0
 
-COPY ./lib/Mojo /usr/local/lib/perl5/site_perl/5.34.0/Mojo
-COPY lib/Mojolicious/Plugin/DirectoryHandler.pm /usr/local/lib/perl5/site_perl/5.34.0/Mojolicious/Plugin
-COPY ./script/darkpan /usr/local/bin
-COPY ./script/darkpan_app.pl /usr/local/bin
+COPY ./lib /opt/lib
+COPY ./script /opt/script
 
 EXPOSE 3000
 
