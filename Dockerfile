@@ -1,10 +1,10 @@
-FROM perl:5.36.3-slim-threaded-bullseye AS compile-image
+FROM perl:5.41.2-slim-threaded AS compile-image
 
 RUN apt-get update
 RUN apt-get update && apt-get install -y \
     curl tar build-essential \
     wget gnupg ca-certificates \
-    libssl-dev libssl1.1 \
+    libssl-dev \
     g++ git zlib1g zlib1g-dev
     
 RUN curl -LO https://raw.githubusercontent.com/miyagawa/cpanminus/master/cpanm \
@@ -17,7 +17,7 @@ COPY cpanfile ./
 
 RUN cpm install --global --show-build-log-on-failure
 
-FROM perl:5.36.3-slim-threaded-bullseye AS build-image
+FROM perl:5.41.2-slim-threaded AS build-image
 
 RUN apt-get update && apt-get install  --no-install-recommends --no-install-suggests  -y \
     curl tar wget ca-certificates \
