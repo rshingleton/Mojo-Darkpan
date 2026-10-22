@@ -8,6 +8,7 @@ Revision history for Perl extension Mojo::Darkpan
     - Documented that cpan-upload ignores upload_uri and needs CPAN_UPLOADER_UPLOAD_URI
     - Rewrote the Dockerfile: current Perl, non-root user, volume for uploads, and a CMD
     - Fixed other_versions in /list including distributions whose name merely starts with the same prefix (Foo-BarBaz listed under Foo-Bar)
+    - Replaced Nice::Try (a source filter) with Syntax::Keyword::Try
     - Added route, publish, list and basic auth tests
 
 0.09 2022-11-20T18:20:24Z

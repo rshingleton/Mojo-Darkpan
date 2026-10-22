@@ -10,7 +10,7 @@
 
 - Test dependencies: `Test::More` 0.98 (`cpanfile`); `Test::Mojo` ships with Mojolicious; `Archive::Tar` is core.
 - Not covered: LDAP auth, `git+ssh` and HTTP `module` sources, `script/darkpan`.
-- Coverage (Devel::Cover, `^lib`, 2026-10-22): total 77.6% (statements 88.3%, branches 47.5%); `Darkpan.pm` and `Controller/Index.pm` 100%, `Config.pm` 95%, `DirectoryHandler.pm` 95%, `Util.pm` 90%, `Controller/Publish.pm` 41% (Nice::Try source filtering may understate it). Coverage is not wired into CI.
+- Coverage (Devel::Cover, `^lib`, 2026-10-22): total 95.9% (statements 97.8%, branches 91.1%, conditions 71.7%); `Darkpan.pm`, `Controller/Index.pm` and `Controller/Publish.pm` 100%, `Config.pm` 95%, `DirectoryHandler.pm` 95%, `Util.pm` 90%. Under the earlier `Nice::Try` source filter `Publish.pm` read 41% and the branch total 47.5%. Coverage is not wired into CI.
 - CI: `.github/workflows/test.yml` (Perl 5.26, 5.32, 5.38, 5.40); not yet run on GitHub.
 - Run in the image (host Perl lacks deps on macOS): `podman run --rm -v <repo>:/src:ro -w /src --entrypoint prove mojo-darkpan:test -l t`.
 - Last run (2026-10-22): all 5 files, 25 tests pass.
