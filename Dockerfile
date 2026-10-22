@@ -1,4 +1,4 @@
-ARG PERL_VERSION=5.42
+ARG PERL_VERSION=5.44
 
 FROM perl:${PERL_VERSION}-slim-threaded AS compile-image
 
