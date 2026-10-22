@@ -89,6 +89,7 @@ was also taken from OrePAN2::Server as the functionality is similar if not ident
 
 =item B</publish> or B</authenquery>:
     POST path(s) for releasing packages, set as the upload_uri in your .pause file
+    (or as CPAN_UPLOADER_UPLOAD_URI when using cpan-upload)
 
 =item B</list>: 
     JSON list of packages and info about them
@@ -227,7 +228,7 @@ See L<CPAN::Uploader|https://metacpan.org/pod/CPAN::Uploader> for more detail.
     user myUsername
     password myPassword
     
-I<** if you don't set the upload_uri, you will upload to CPAN>
+I<** if you don't set the upload_uri (or CPAN_UPLOADER_UPLOAD_URI), you will upload to CPAN>
 
 The C<cpan-upload> command line utility ignores the C<upload_uri> setting (see
 L<CPAN::Uploader GH #24|https://github.com/rjbs/CPAN-Uploader/issues/24>). When uploading

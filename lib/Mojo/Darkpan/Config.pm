@@ -96,6 +96,7 @@ sub _build_directory {
 sub _build_compressIndex {
     my $self = shift;
     my $compress;
+    # an empty env var falls through to the config file; "0" is a real value
     if (defined $ENV{DARKPAN_COMPRESS_INDEX} && length $ENV{DARKPAN_COMPRESS_INDEX}) {
         $compress = $ENV{DARKPAN_COMPRESS_INDEX};
     }
