@@ -127,7 +127,7 @@ sub list {
     my $data        = {};
     my $packageFile = $self->packageFile;
     return $data unless -f $packageFile;
-    my $fh = IO::Zlib->new( $packageFile, "rb" );
+    my $fh          = IO::Zlib->new( $packageFile, "rb" );
     while (<$fh>) {
         next if ( $_ !~ m/\.tar\.gz$/ );
         my ( $name, $version, $file ) = split( '\s+', $_ );
