@@ -96,12 +96,12 @@ sub _build_directory {
 sub _build_compressIndex {
     my $self = shift;
     my $compress;
-    if ($ENV{DARKPAN_COMPRESS_INDEX}) {
+    if (defined $ENV{DARKPAN_COMPRESS_INDEX} && length $ENV{DARKPAN_COMPRESS_INDEX}) {
         $compress = $ENV{DARKPAN_COMPRESS_INDEX};
     }
     else {
         $compress = $self->_config->{compress_index}
-            if $self->_config && $self->_config->{compress_index};
+            if $self->_config && defined $self->_config->{compress_index};
     }
 
     # default if undef
