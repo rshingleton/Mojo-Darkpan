@@ -167,7 +167,7 @@ sub _getFileList {
     my @data;
     for (@files) {
         next if $_ =~ m/^\./;
-        next if $_ !~ m/^$prefix/;
+        next if $_ !~ m/^\Q$prefix\E-v?\d/;
         next if $_ eq $current;
         push( @data, $_ );
     }
