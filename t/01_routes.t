@@ -40,7 +40,7 @@ subtest 'list on an empty repository' => sub {
 
 subtest 'reindex requires authorization' => sub {
     my $started = 0;
-    no warnings 'redefine';
+    no warnings qw(redefine once);
     local *Mojo::Darkpan::Util::createIndex = sub { $started++ };
 
     $t->get_ok('/reindex')->status_is(200);

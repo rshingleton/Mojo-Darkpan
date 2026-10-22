@@ -2,7 +2,7 @@ Revision history for Perl extension Mojo::Darkpan
 
 {{$NEXT}}
     - Fixed path traversal in DirectoryHandler that allowed reading files outside the repository directory
-    - /reindex now checks authorization before starting the reindex
+    - /reindex now checks authorization before starting the reindex (thanks to José Joaquín Atria, GH #5)
     - /list on a repository with no index file returns an empty object instead of warning
     - A false compress_index (or empty DARKPAN_COMPRESS_INDEX) in the configuration is now honoured
     - Documented that cpan-upload ignores upload_uri and needs CPAN_UPLOADER_UPLOAD_URI
