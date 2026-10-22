@@ -1,6 +1,8 @@
 Revision history for Perl extension Mojo::Darkpan
 
 {{$NEXT}}
+
+0.10 2026-10-22T13:35:18Z
     - Fixed path traversal in DirectoryHandler that allowed reading files outside the repository directory
     - /reindex now checks authorization before starting the reindex (thanks to José Joaquín Atria, GH #5)
     - /list on a repository with no index file returns an empty object instead of warning
