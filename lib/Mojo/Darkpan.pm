@@ -229,6 +229,12 @@ See L<CPAN::Uploader|https://metacpan.org/pod/CPAN::Uploader> for more detail.
     
 I<** if you don't set the upload_uri, you will upload to CPAN>
 
+The C<cpan-upload> command line utility ignores the C<upload_uri> setting (see
+L<CPAN::Uploader GH #24|https://github.com/rjbs/CPAN-Uploader/issues/24>). When uploading
+with C<cpan-upload>, set the upload URI with the environment variable instead:
+
+    CPAN_UPLOADER_UPLOAD_URI=http://my-darkpan.server/publish cpan-upload --user myUsername --password myPassword MyModule-0.01.tar.gz
+
 If basic auth is enabled, the username and password set in the .pause file will be
 used as basic auth credentials.
 
