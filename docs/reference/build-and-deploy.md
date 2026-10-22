@@ -22,5 +22,5 @@ Uncommitted rewrite in the working tree as of 2026-10-22. Built and run with pod
 ## Release and CI
 
 - Release flow is Minilla-based (`[release]` in `minil.toml`); steps beyond that are not documented in the repo.
-- `.travis.yml` is the only CI file. *(unverified whether Travis is still active)*
+- `.github/workflows/test.yml` runs `prove -lr t` on Perl 5.26, 5.32, 5.38 and 5.40 for pushes to `main` and pull requests. *(not yet run on GitHub)* `.travis.yml` was removed.
 - `.idea/` project files are tracked.
